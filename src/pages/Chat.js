@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import BASE_URL from "../config/api";
 import { FiMenu, FiPlus, FiSend, FiSearch } from "react-icons/fi";
 import { ImSpinner8 } from "react-icons/im";
 import "../styles/global.css";
@@ -43,7 +44,7 @@ const Chat = () => {
     setNewsLoading(true);
     setNewsError("");
     try {
-      const response = await axios.get('http://localhost:5000/api/news');
+      const response = await axios.get(`${BASE_URL}/api/news`);
       setNewsArticles(response.data.articles);
     } catch (error) {
       setNewsError("Failed to fetch news.");
@@ -64,7 +65,7 @@ const Chat = () => {
   setWeatherError("");
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/weather/coords?lat=${lat}&lon=${lon}`
+      `${BASE_URL}/api/weather/coords?lat=${lat}&lon=${lon}`
     );
     setWeather(response.data);
   } catch (error) {
@@ -80,7 +81,7 @@ const Chat = () => {
   setWeatherError("");
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/weather/city?city=${city}`
+      `${BASE_URL}/api/weather/city?city=${city}`
     );
     setWeather(response.data);
   } catch (error) {
@@ -118,7 +119,7 @@ const Chat = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:5000/api/auth/threads",
+        `${BASE_URL}/api/auth/threads`,
         { headers: { Authorization: token } }
       );
       setThreads(response.data);
@@ -140,7 +141,7 @@ const Chat = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.post(
-          "http://localhost:5000/api/auth/start-chat",
+          `${BASE_URL}/api/auth/start-chat`,
           {},
           { headers: { Authorization: token } }
         );
@@ -165,7 +166,7 @@ const Chat = () => {
         if (!token) throw new Error("Unauthorized. Please log in again.");
 
         const response = await axios.get(
-          `http://localhost:5000/api/auth/get-history?threadId=${currentThreadId}`,
+          `${BASE_URL}/api/auth/get-history?threadId=${currentThreadId}`,
           { headers: { Authorization: token } }
         );
 
@@ -187,7 +188,7 @@ const Chat = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:5000/api/auth/start-chat",
+        `${BASE_URL}/api/auth/start-chat`,
         { newThread: true },
         { headers: { Authorization: token } }
       );
@@ -202,7 +203,7 @@ const Chat = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.get(
-        `http://localhost:5000/api/auth/thread/${threadId}`,
+        `${BASE_URL}/api/auth/thread/${threadId}`,
         { headers: { Authorization: token } }
       );
       setCurrentThreadId(threadId);
@@ -229,7 +230,7 @@ const Chat = () => {
 
       if (message.toLowerCase().includes("show my events")) {
         const response = await axios.get(
-          "http://localhost:5000/api/auth/calendar/events",
+          `${BASE_URL}/api/auth/calendar/events`,
           { headers: { Authorization: token } }
         );
         botResponse = response.data.length > 0
@@ -257,11 +258,11 @@ const Chat = () => {
           };
 
           try {
-            const response = await axios.post(
-              "http://localhost:5000/api/auth/calendar/event",
-              eventDetails,
-              { headers: { Authorization: token } }
-            );
+        const response = await axios.post(
+          `${BASE_URL}/api/auth/calendar/event`,
+          eventDetails,
+          { headers: { Authorization: token } }
+        );
             botResponse = `✅ Event '${response.data.summary}' added successfully!, click on link to view: ${response.data.htmlLink}`;
           } catch (err) {
             botResponse = `❌ Failed to add event: ${err.response?.data?.message || err.message}`;
@@ -279,7 +280,7 @@ const Chat = () => {
 
       } else if (message.toLowerCase().includes("delete event")) {
         const eventId = message.split(" ").pop();
-        await axios.delete(`http://localhost:5000/api/auth/calendar/event/${eventId}`, {
+        await axios.delete(`${BASE_URL}/api/auth/calendar/event/${eventId}`, {
           headers: { Authorization: token }
         });
         botResponse = "🗑 Event deleted successfully!";
@@ -292,11 +293,11 @@ const Chat = () => {
 
       } else {
         // ✅ For streaming, don't update chats here. Let socket handlers do it.
-        await axios.post(
-          "http://localhost:5000/api/auth/stream-message",
-          { message, threadId: currentThreadId },
-          { headers: { Authorization: token } }
-        );
+          await axios.post(
+            `${BASE_URL}/api/auth/stream-message`,
+            { message, threadId: currentThreadId },
+            { headers: { Authorization: token } }
+          );
       }
 
       setMessage("");
@@ -317,7 +318,7 @@ const Chat = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:5000/api/auth/search",
+        `${BASE_URL}/api/auth/search`,
         { query: message },
         { headers: { Authorization: token } }
       );
