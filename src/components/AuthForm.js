@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import BASE_URL from "../config/api";
 const AuthForm = ({ type }) => {
   const [formData, setFormData] = useState({
     username: "",
@@ -19,7 +20,7 @@ const AuthForm = ({ type }) => {
     setIsLoading(true);
     try {
       const endpoint = type === "login" ? "/api/auth/login" : "/api/auth/register";
-      const response = await axios.post(`http://localhost:5000${endpoint}`, formData, {
+      const response = await axios.post(`${BASE_URL}${endpoint}`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -45,7 +46,7 @@ const AuthForm = ({ type }) => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `http://${BASE_URL}/api/auth/google`;
     };
 
   return (

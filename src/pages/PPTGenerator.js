@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PPTX from 'pptxgenjs';
 import TemplateConfig from './template.js';
+import BASE_URL from '../config/api.js';
 
 export default function PPTGenerator() {
   const [prompt, setPrompt] = useState('');
@@ -31,7 +32,7 @@ export default function PPTGenerator() {
 
   const fetchImage = async (slideIndex, slides) => {
     try {
-      const newImage = await axios.get(`http://localhost:5000/api/ppt/unsplash?keyword=${slides.content}`);
+      const newImage = await axios.get(`${BASE_URL}/api/ppt/unsplash?keyword=${slides.content}`);
       setImage(prev => ({
         ...prev,
         [slideIndex]: { ...prev[slideIndex], image: newImage.data.url }
@@ -89,7 +90,7 @@ const generatePPT = async () => {
   const generateWithAI = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/ppt/generate", {
+      const response = await axios.post(`${BASE_URL}/api/ppt/generate`, {
         prompt,
         template,
         animationStyle: animation
@@ -117,7 +118,7 @@ const generatePPT = async () => {
 const handleImageChange = async (slideIndex, keyword) => {
   try {
     const encodedKey = encodeURIComponent(keyword); 
-    const response = await axios.get(`http://localhost:5000/api/ppt/unsplash?keyword=${encodedKey}`);
+    const response = await axios.get(`${BASE_URL}/api/ppt/unsplash?keyword=${encodedKey}`);
 
     // Fetch actual image as Blob
     const imgResponse = await axios.get(response.data.url, { responseType: 'blob' });

@@ -799,7 +799,6 @@ const Chat = () => {
 
                             return null; // 👈 prevent rendering empty or unknown types
                           })}
-
                           {projectFiles.length > 1 && (
                             <><StackblitzLauncher
                               html={projectFiles.find(f => f.language === "html")?.code || "<div>...</div>"}
