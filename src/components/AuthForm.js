@@ -46,7 +46,7 @@ const AuthForm = ({ type }) => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `http://${BASE_URL}/api/auth/google`;
+    window.location.href = `https://${BASE_URL}/api/auth/google`;
     };
 
   return (
