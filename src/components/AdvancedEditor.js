@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, } from 'react';
 import { SketchPicker } from 'react-color';
 import { FaExpand, FaCompress, FaSave } from 'react-icons/fa';
 import axios from 'axios';
+import BASE_URL from '../config/api';
 
 const AdvancedEditor = ({ html, css, js, onUpdate }) => {
   const iframeRef = useRef();
@@ -129,7 +130,7 @@ const AdvancedEditor = ({ html, css, js, onUpdate }) => {
       }
 
       // Save to backend
-      await axios.post('http://localhost:5000/api/project/save', {
+      await axios.post(`${BASE_URL}/api/project/save`, {
         html: updatedHtml,
         css: styles,
         js: scripts,
