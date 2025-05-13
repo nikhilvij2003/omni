@@ -1,3 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 3px;
+}
+
+/* Code block styling */
+pre code.hljs {
+  background: none !important;
+  padding: 0 !important;
+}
+
+.prose-invert pre {
+  background-color: #1a1c2e;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+
 .App {
   text-align: center;
 }
