@@ -18,18 +18,50 @@ export default function PPTGenerator() {
 
   const navigate = useNavigate();
 
-  const applyTemplateStyles = (pptx) => {
-    const { colors, layouts } = TemplateConfig[template];
+  // const applyTemplateStyles = (pptx) => {
+  //   const { colors, layouts } = TemplateConfig[template];
+  //   pptx.defineSlideMaster({
+  //     title: 'MASTER_SLIDE',
+  //     background: { color: colors.background },
+  //     objects: [
+  //       { rect: { x: 0, y: 0, w: '100%', h: 0.5, fill: colors.header } },
+  //     ],
+  //     slideNumber: { x: 0.3, y: '90%' }
+  //   });
+  //   return layouts;
+  // };
+  const applyTemplateStyles = (pptx, template) => {
+    const config = TemplateConfig[template];
+    if (!config) throw new Error(`Template '${template}' not found`);
+
+    const { colors, fonts, layouts, transitions } = config;
+
     pptx.defineSlideMaster({
       title: 'MASTER_SLIDE',
       background: { color: colors.background },
       objects: [
-        { rect: { x: 0, y: 0, w: '100%', h: 0.5, fill: colors.header } },
+        {
+          rect: {
+            x: 0,
+            y: 0,
+            w: '100%',
+            h: 0.5,
+            fill: colors.header
+          }
+        }
       ],
-      slideNumber: { x: 0.3, y: '90%' }
+      slideNumber: { x: 0.3, y: '90%', color: colors.text, fontSize: 10 }
     });
-    return layouts;
+
+    // You might apply transitions and fonts later during slide creation
+    return {
+      layouts,
+      fonts,
+      colors,
+      transitions
+    };
   };
+
 
   const fetchImage = async (slideIndex, slides) => {
     try {
