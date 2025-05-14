@@ -73,4 +73,4 @@ const TemplateConfig = {
   }
 };
 
-module.exports = TemplateConfig;
+export default TemplateConfig;

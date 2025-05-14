@@ -14,7 +14,7 @@ export default function PPTGenerator() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [customizations, setCustomizations] = useState({});
-  const [image,setImage] = useState({});
+  // const [image,setImage] = useState({});
 
   const navigate = useNavigate();
 
@@ -84,6 +84,8 @@ const generatePPT = async () => {
   slides.forEach((slide, index) => {
     const currentSlide = pptx.addSlide('MASTER_SLIDE');
     const layout = layouts[index % layouts.length];
+
+
     if (!slide || typeof slide.title === 'undefined') {
     console.error(`Slide at index ${index} is missing or invalid:`, slide);
     return; // Skip this slide
