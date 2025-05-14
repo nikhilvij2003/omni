@@ -79,22 +79,22 @@ export default function PPTGenerator() {
 const generatePPT = async () => {
   // fetchImage();
   const pptx = new PPTX();
-  const layouts = applyTemplateStyles(pptx,template);
+  const { layouts } = applyTemplateStyles(pptx,template);
 
   slides.forEach((slide, index) => {
     const currentSlide = pptx.addSlide('MASTER_SLIDE');
-    const layout = layouts[index % layouts.length];
+    const layout = layouts[index % layouts.length] || { };
 
 
-    if (!slide || typeof slide.title === 'undefined') {
-    console.error(`Slide at index ${index} is missing or invalid:`, slide);
+    if (!slide || typeof slide?.title !== 'string') {
+    console.error(`Invalid slide at index ${index}:`, slide);
     return; // Skip this slide
   }
 
     // Add title
     currentSlide.addText(slide.title || "Untitled Slide", {
-      x: layout.title.x,
-      y: layout.title.y,
+      x: layout.title?.x ?? 0.5,
+      y: layout.title?.y ?? 0.3,
       fontSize: 24,
       color: TemplateConfig[template].colors.text
     });
