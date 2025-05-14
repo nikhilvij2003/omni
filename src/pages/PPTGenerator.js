@@ -86,7 +86,7 @@ const generatePPT = async () => {
     const layout = layouts[index % layouts.length];
 
     // Add title
-    currentSlide.addText(slide.title, {
+    currentSlide.addText(slide.title || "Untitled Slide", {
       x: layout.title.x,
       y: layout.title.y,
       fontSize: 24,
@@ -176,7 +176,7 @@ const handleImageChange = async (slideIndex, keyword) => {
 
 useEffect(() => {
   slides.forEach((slide, i) => {
-    const keyword = slide.title || "random";
+    const keyword = slide?.title || "random";
     setCustomizations(prev => ({
       ...prev,
       [i]: { ...prev[i], keyword }
