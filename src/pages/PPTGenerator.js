@@ -84,6 +84,10 @@ const generatePPT = async () => {
   slides.forEach((slide, index) => {
     const currentSlide = pptx.addSlide('MASTER_SLIDE');
     const layout = layouts[index % layouts.length];
+    if (!slide || typeof slide.title === 'undefined') {
+    console.error(`Slide at index ${index} is missing or invalid:`, slide);
+    return; // Skip this slide
+  }
 
     // Add title
     currentSlide.addText(slide.title || "Untitled Slide", {
