@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PPTX from 'pptxgenjs';
 import TemplateConfig from './template.js';
 import BASE_URL from '../config/api.js';
+
 
 export default function PPTGenerator() {
   const [prompt, setPrompt] = useState('');
@@ -115,6 +116,7 @@ const generatePPT = async () => {
 
 
 
+
 const handleImageChange = async (slideIndex, keyword) => {
   try {
     const encodedKey = encodeURIComponent(keyword); 
@@ -139,6 +141,18 @@ const handleImageChange = async (slideIndex, keyword) => {
     console.error('Image load failed:', err);
   }
 };
+
+useEffect(() => {
+  slides.forEach((slide, i) => {
+    const keyword = slide.title || "random";
+    setCustomizations(prev => ({
+      ...prev,
+      [i]: { ...prev[i], keyword }
+    }));
+    handleImageChange(i, keyword);
+  });
+}, [slides]);
+
 
 
   return (
