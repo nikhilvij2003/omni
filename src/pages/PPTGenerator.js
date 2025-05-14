@@ -63,23 +63,23 @@ export default function PPTGenerator() {
   };
 
 
-  const fetchImage = async (slideIndex, slides) => {
-    try {
-      const newImage = await axios.get(`${BASE_URL}/api/ppt/unsplash?keyword=${slides.content}`);
-      setImage(prev => ({
-        ...prev,
-        [slideIndex]: { ...prev[slideIndex], image: newImage.data.url }
-      }));
-      console.log(image);
-    } catch (err) {
-      console.error('Image load failed:', err);
-    }
+  // const fetchImage = async (slideIndex, slides) => {
+  //   try {
+  //     const newImage = await axios.get(`${BASE_URL}/api/ppt/unsplash?keyword=${slides.content}`);
+  //     setImage(prev => ({
+  //       ...prev,
+  //       [slideIndex]: { ...prev[slideIndex], image: newImage.data.url }
+  //     }));
+  //     console.log(image);
+  //   } catch (err) {
+  //     console.error('Image load failed:', err);
+  //   }
 
-  }
+  // }
 const generatePPT = async () => {
-  fetchImage();
+  // fetchImage();
   const pptx = new PPTX();
-  const layouts = applyTemplateStyles(pptx);
+  const layouts = applyTemplateStyles(pptx,template);
 
   slides.forEach((slide, index) => {
     const currentSlide = pptx.addSlide('MASTER_SLIDE');
